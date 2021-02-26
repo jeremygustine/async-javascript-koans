@@ -48,14 +48,12 @@ test('chaining two functions with promises - reading from a file and sending to 
 
   const fileName = `promises_are_fun`
 
-  fileReader
-    .readFile(fileName)
-    .then(contents => httpClient.post(contents))
-    .then(response => {
-      expect(fakeServer.receive).toHaveBeenCalledWith('contents of file')
-      expect(response).toBe('200 OK')
-      done()
-    })
+  // TODO we are missing a line here. Make it pass!
+  fileReader.readFile(fileName).then(response => {
+    expect(fakeServer.receive).toHaveBeenCalledWith('contents of file')
+    expect(response).toBe('200 OK')
+    done()
+  })
 })
 
 test('getting crazy now - chaining 3 functions with promises - download a file, read it, send data to server', done => {
@@ -68,17 +66,16 @@ test('getting crazy now - chaining 3 functions with promises - download a file, 
 
   const fileName = `promises_are_fun`
 
-  fileDownloader
-    .download(fileName)
-    .then(filePath => fileReader.readFile(filePath))
-    .then(contents => httpClient.post(contents))
-    .then(response => {
-      expect(fileDownloaderSpy.mock.calls[0][0]).toEqual(fileName)
-      expect(fileReaderSpy.mock.calls[0][0]).toEqual(
-        '/path/to/downloaded/promises_are_fun'
-      )
-      expect(fakeServer.receive).toHaveBeenCalledWith('contents of file')
-      expect(response).toBe('200 OK')
-      done()
-    })
+  // TODO you're on your own now!
+  // Download the file with the fileDownloader,
+  // read the contents with the fileReader,
+  // and send the contents to the server
+  // HINT: Don't forget about Jest's "done" function!
+
+  expect(fileDownloaderSpy.mock.calls[0][0]).toEqual(fileName)
+  expect(fileReaderSpy.mock.calls[0][0]).toEqual(
+    '/path/to/downloaded/promises_are_fun'
+  )
+  expect(fakeServer.receive).toHaveBeenCalledWith('contents of file')
+  expect(response).toBe('200 OK')
 })

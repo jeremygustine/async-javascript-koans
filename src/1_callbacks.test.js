@@ -31,7 +31,8 @@ test('send data to server', () => {
   const testData = 'data sent to server'
   const emptyCallback = () => {}
 
-  httpClient.post('data sent to server', emptyCallback)
+  //TODO Change the next line to make the test pass
+  httpClient.post('what should this be???', emptyCallback)
 
   expect(fakeServer.receive).toHaveBeenCalledWith(testData)
 })
@@ -41,9 +42,8 @@ test('writing our first callback', () => {
   const fakeLogger = { log: jest.fn() }
   const httpClient = new HttpClient(fakeServer)
 
-  const callback = response => {
-    fakeLogger.log(response)
-  }
+  // TODO change the callback function to log the response into the fakeLogger
+  const callback = () => {}
 
   httpClient.post('data sent to server', callback)
 
@@ -60,9 +60,10 @@ test('chaining two functions with callbacks - reading from a file and sending to
 
   const fileName = `callbacks_are_fun`
 
-  fileReader.readFile(fileName, contents =>
-    httpClient.post(contents, response => fakeLogger.log(response))
-  )
+  // TODO send the file contents to the server with the httpClient
+  fileReader.readFile(fileName, (contents) => {
+    // What should we do with these file contents?
+  })
 
   expect(fileReaderSpy.mock.calls[0][0]).toEqual('callbacks_are_fun')
   expect(fakeServer.receive).toHaveBeenCalledWith('contents of file')
@@ -80,11 +81,10 @@ test('getting crazy now - chaining 3 functions with callbacks - download a file,
 
   const fileName = `callbacks_are_fun`
 
-  fileDownloader.download(fileName, filePath =>
-    fileReader.readFile(filePath, contents =>
-      httpClient.post(contents, response => fakeLogger.log(response))
-    )
-  )
+  // TODO you're on your own now! 
+  // Download the file with the fileDownloader, 
+  // read the contents with the fileReader, 
+  // and send the contents to the server
 
   expect(fileDownloaderSpy.mock.calls[0][0]).toEqual(fileName)
   expect(fileReaderSpy.mock.calls[0][0]).toEqual(
@@ -93,4 +93,3 @@ test('getting crazy now - chaining 3 functions with callbacks - download a file,
   expect(fakeServer.receive).toHaveBeenCalledWith('contents of file')
   expect(fakeLogger.log).toHaveBeenCalledWith('200 OK')
 })
-
